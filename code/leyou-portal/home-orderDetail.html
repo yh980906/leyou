@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>订单详情</title>
+     <link rel="icon" href="assets/img/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="css/webbase.css" />
+    <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css" />
+</head>
+
+<body>
+    
+    <!--页面顶部白条条，由js动态加载-->
+	<script type="text/javascript" src="plugins/jquery/jquery.min.js"></script>
+	<div class="nav-bottom"></div>
+    <script type="text/javascript">$(".nav-bottom").load("top.html");</script>
+
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#service").hover(function(){
+		$(".service").show();
+	},function(){
+		$(".service").hide();
+	});
+	$("#shopcar").hover(function(){
+		$("#shopcarlist").show();
+	},function(){
+		$("#shopcarlist").hide();
+	});
+
+})
+</script>
+<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="js/widget/nav.js"></script>
+</body>
+    <!--header-->
+    <div id="homeOrderDetailApp">
+        <div class="py-container">
+            <div class="yui3-g home">
+                <!--左侧列表-->
+                <div class="yui3-u-1-6 list">
+
+                    <div class="person-info">
+                        <div class="person-photo"><img src="img/_/photo.png" alt=""></div>
+                        <div class="person-account">
+                            <span class="name">{{user.username}}</span>
+                            <span class="safe">账户安全</span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                     <div class="list-items">
+                        <dl>
+							<dt><i>·</i> 订单中心</dt>
+							<dd ><a href="home-index.html"  class="list-active" >我的订单</a></dd>
+							<dd><a href="home-order-pay.html" >待付款</a></dd>
+							<dd><a href="home-order-send.html"  >待发货</a></dd>
+							<dd><a href="home-order-receive.html" >待收货</a></dd>
+							<dd><a href="home-order-evaluate.html" >待评价</a></dd>
+						</dl>
+						<dl>
+							<dt><i>·</i> 我的中心</dt>
+							<dd><a href="home-person-collect.html">我的收藏</a></dd>
+							<dd><a href="home-person-footmark.html">我的足迹</a></dd>
+						</dl>
+						<dl>
+							<dt><i>·</i> 物流消息</dt>
+						</dl>
+						<dl>
+							<dt><i>·</i> 设置</dt>
+							<dd><a href="home-setting-info.html">个人信息</a></dd>
+							<dd><a href="home-setting-address.html"  >地址管理</a></dd>
+							<dd><a href="home-setting-safe.html" >安全管理</a></dd>
+						</dl>
+                    </div>
+                </div>
+                <!--右侧主内容-->
+                <div class="yui3-u-5-6">
+                    <div class="body">
+                        <div class="order-detail">
+                            <h4>订单详情</h4>
+                            <div class="order-bar">
+                                <div class="sui-steps-round steps-round-auto steps-4" >
+                                    <div v-for="(s,i) in orderState" :key="i" :class="s.stateClass" >
+                                        <div class="wrap">
+                                        <div class="round">{{i+1}}</div>
+                                        <div class="bar" v-if="i+1 !== 5"></div>
+                                        </div>
+                                        <label>
+                                            <span>{{s.stateTitle}}</span>
+                                            <span>{{s.stateDay}}</span>
+                                            <span>{{s.stateTime}}</span>
+                                        </label>
+                                    </div>
+                                   <!-- <div class="current" >
+                                        <div class="wrap">
+                                        <div class="round">2</div>
+                                        <div class="bar"></div>
+                                        </div>
+                                        <label>
+                                            <span>付款成功</span>
+                                            <span>{{(ly.formatDate(order.createTime)).slice(0,10)}}</span>
+                                            <span>{{(ly.formatDate(order.createTime)).slice(11,19)}}</span>
+                                        </label>
+                                    </div>
+                                    <div class="todo">
+                                        <div class="wrap">
+                                        <div class="round">3</div>
+                                        <div class="bar"></div>
+                                        </div>
+                                        <label>
+                                            <span>发货</span>
+                                            <span>2016-06-27</span>
+                                            <span>13:03:53</span>
+                                        </label>
+                                    </div>
+                                    <div class="todo">
+                                        <div class="wrap">
+                                        <div class="round">4</div>
+                                        <div class="bar"></div>
+                                        </div>
+                                        <label>
+                                            <span>确认收货</span>
+                                            <span>2016-06-27</span>
+                                            <span>13:03:53</span>
+                                        </label>
+                                    </div>
+                                    <div class="todo last">
+                                        <div class="wrap">
+                                        <div class="round">5</div>
+                                        </div>
+                                        <label>
+                                            <span>评价晒单</span>
+                                            <span>2016-06-27</span>
+                                            <span>13:03:53</span>
+                                        </label>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="order-state">
+                                <p>当前订单状态：
+                                    <span class="red" v-show="order.status == 1">未付款</span>
+                                    <span class="red" v-show="order.status == 2">等待卖家发货</span>
+                                    <span class="red" v-show="order.status == 3">已发货</span>
+                                    <span class="red" v-show="order.status == 4">交易成功</span>
+                                    <span class="red" v-show="order.status == 5">交易关闭</span>
+
+                                </p>
+                                <p>还剩06天00小时 自动确认收货</p>
+                            </div>
+                        </div>
+                        <div class="order-info">
+                            <h5>订单信息</h5>
+                            <p>收货地址：{{order.receiverAddress}}  </p>
+                            <p>订单单号：{{order.orderId}}</p>
+                            <p>下单时间：<span v-if="orderStatusTimes.createTime != null" v-html="ly.formatDate(orderStatusTimes.createTime)">无</span></p>
+                            <p>支付时间：<span v-if="orderStatusTimes.paymentTime != null" v-html="ly.formatDate(orderStatusTimes.paymentTime)">无</span></p>
+                            <p>支付方式：微信</p>
+                            <p>发货时间：<span v-if="orderStatusTimes.consignTime != null" v-html="ly.formatDate(orderStatusTimes.consignTime)">无</span></p>
+                        </div>
+                        <div class="order-goods">
+                            <table class="sui-table">
+                                    <thead>
+                                        <th class="center" >商品</th>
+                                        <th class="center" >价格</th>
+                                        <th class="center" >数量</th>
+                                        <th class="center" >优惠</th>
+                                        <th class="center" >状态</th>
+                                    </thead>
+                                    <tbody >
+                                            <tr>
+                                                <td colspan="5">订单编号：{{order.orderId}}</td>
+                                            </tr>
+
+                                            <tr v-for="(goods,i) in order.orderDetails" :key="i">
+                                                    <td>
+                                                        <div class="typographic">
+                                                            <img :src="goods.image" width="80px" height="80px" />
+                                                            <span>{{goods.title}}</span>
+                                                            <span class="guige">a</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <ul class="unstyled">
+                                                            <li class="o-price">¥10000</li>
+                                                            <li>¥{{ly.formatPrice(goods.price*1)}}</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>{{goods.num}}</td>
+                                                    <td>无优惠</td>
+                                                    <td class="red" v-show="order.status == 1">未付款</td>
+                                                    <td class="red" v-show="order.status == 2">等待卖家发货</td>
+                                                    <td class="red" v-show="order.status == 3">已发货</td>
+                                                    <td class="red" v-show="order.status == 4">交易成功</td>
+                                                    <td class="red" v-show="order.status == 5">交易关闭</td>
+                                            </tr>
+                                    </tbody>
+                            </table>
+                            <div class="order-price">
+                                <p>商品总金额：￥{{ly.formatPrice(order.actualPay*1)}}</p>
+                                <p>运费金额：5</p>
+                                <p>使用优惠券：无</p>
+                                <h4 class="red">实际支付：￥{{ly.formatPrice(order.totalPay*1)}}</h4>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!--猜你喜欢-->
+                        <div class="like-title">
+                            <div class="mt">
+                                <span class="fl"><strong>热卖单品</strong></span>
+                            </div>
+                        </div>
+                        <div class="like-list">
+                            <ul class="yui3-g">
+                                <li class="yui3-u-1-4">
+                                    <div class="list-wrap">
+                                        <div class="p-img">
+                                            <img src="img/_/itemlike01.png" />
+                                        </div>
+                                        <div class="attr">
+                                            <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                        </div>
+                                        <div class="price">
+                                            <strong>
+											<em>¥</em>
+											<i>3699.00</i>
+										</strong>
+                                        </div>
+                                        <div class="commit">
+                                            <i class="command">已有6人评价</i>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="yui3-u-1-4">
+                                    <div class="list-wrap">
+                                        <div class="p-img">
+                                            <img src="img/_/itemlike02.png" />
+                                        </div>
+                                        <div class="attr">
+                                            <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
+                                        </div>
+                                        <div class="price">
+                                            <strong>
+											<em>¥</em>
+											<i>4388.00</i>
+										</strong>
+                                        </div>
+                                        <div class="commit">
+                                            <i class="command">已有700人评价</i>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="yui3-u-1-4">
+                                    <div class="list-wrap">
+                                        <div class="p-img">
+                                            <img src="img/_/itemlike03.png" />
+                                        </div>
+                                        <div class="attr">
+                                            <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                        </div>
+                                        <div class="price">
+                                            <strong>
+											<em>¥</em>
+											<i>4088.00</i>
+										</strong>
+                                        </div>
+                                        <div class="commit">
+                                            <i class="command">已有700人评价</i>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="yui3-u-1-4">
+                                    <div class="list-wrap">
+                                        <div class="p-img">
+                                            <img src="img/_/itemlike04.png" />
+                                        </div>
+                                        <div class="attr">
+                                            <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                        </div>
+                                        <div class="price">
+                                            <strong>
+											<em>¥</em>
+											<i>4088.00</i>
+										</strong>
+                                        </div>
+                                        <div class="commit">
+                                            <i class="command">已有700人评价</i>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- 底部栏位 -->
+	<!--页面底部，由js动态加载-->
+	<div class="clearfix footer"></div>
+	<script type="text/javascript">$(".footer").load("foot.html");</script>
+	<!--页面底部END-->
+<script src="./js/vue/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script type="text/javascript">
+    var homeOrderDetailVm = new Vue({
+        el:"#homeOrderDetailApp",
+        data:{
+            ly,
+            user:"",//包含用户名与用户Id
+            order:[],
+            orderId:0,
+            orderStatusTimes: {
+                orderId:"",
+                status:0,
+                createTime:0,
+                paymentTime:0,
+                consignTime:0,
+                endTime:0,
+                commentTime:0,
+            },//包含订单的操作时间
+
+            orderState:[],
+        },
+        methods:{
+            loadOrder(){
+                this.orderId = ly.getUrlParam("orderId");
+                // 判断是否登录
+                ly.verifyUser().then(({data}) => {
+                    this.user = data;
+                   ly.http.get("/order/order/"+this.orderId).then(({data})=>{
+                       this.order = data;
+                   }).catch(()=>{
+                       this.order = [];
+                   });
+                    ly.http.get("/order/order/status/"+this.orderId).then(({data})=>{
+                        this.orderStatusTimes = data;
+                        //用来渲染
+                        this.createOrderState(data);
+                        })
+
+                }).catch(() => {
+                    // 未登录
+                    window.location.href = "http://www.leyou.com/login.html?returnUrl=http://www.leyou.com/home-orderDetail.html";
+                })
+
+            },
+            createOrderState(data){
+               let stateData = [
+                    "提交订单",
+                    "付款成功",
+                    "已发货",
+                    "确认收货",
+                    "已评价",
+                ];//存储状态
+                let stateType = [
+                    "createTime",
+                    "paymentTime",
+                    "consignTime",
+                    "endTime",
+                    "commentTime",
+                ];//存储样式
+                for (let i = 1; i <= 5; i++){
+                    let temp = {
+                        stateClass: '',
+                        stateTime: '',
+                        stateDay: '',
+                        stateTitle: '',
+                    };
+                    temp.stateTitle = stateData[i-1];
+                    if (i === data.status){
+                        const t = ly.formatDate(data[stateType[i-1]]).split(" ");
+                        temp.stateDay = t[0];
+                        temp.stateTime = t[1];
+                        temp.stateClass = "current";
+                        this.orderState.push(temp);
+                        continue ;
+                    }else if (i < data.status) {
+                        const t = ly.formatDate(data[stateType[i-1]]).split(" ");
+                        temp.stateDay = t[0];
+                        temp.stateTime = t[1];
+                        if (i === 5){
+                            temp.stateClass = "finished last";
+                        }else {
+                            temp.stateClass = "finished";
+                        }
+                        this.orderState.push(temp);
+                        continue ;
+                    }else {
+                        if (i === 5) {
+                            temp.stateClass = "todo last";
+                        }else{
+                            temp.stateClass = "todo";
+                        }
+                        temp.stateDay = "";
+                        temp.stateTime = "";
+                        this.orderState.push(temp);
+                        continue ;
+                    }
+                }
+            }
+        },
+        created(){
+          this.loadOrder();
+        },
+        components: {
+            shortcut: () => import("./js/pages/shortcut.js")
+        }
+    });
+
+</script>
+</html>
