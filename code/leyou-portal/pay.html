@@ -98,7 +98,6 @@
                    		 // 获取订单编号
                    		 this.orderId = ly.getUrlParam("orderId");
                         this.actualPay = ly.getUrlParam("actualPay");
-
                         // 获取请求链接
                         ly.http.get("/order/order/url/" + this.orderId)
                             .then(resp => {

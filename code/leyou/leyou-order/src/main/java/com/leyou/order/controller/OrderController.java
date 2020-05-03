@@ -123,15 +123,16 @@ public class OrderController {
      */
     @GetMapping("url/{id}")
     @ApiOperation(value = "生成微信扫码支付付款链接", notes = "生成付款链接")
-    @ApiImplicitParam(name = "id", value = "订单编号", type = "Long")
+    @ApiImplicitParam(name = "id", value = "订单编号", type = "String")
     @ApiResponses({
             @ApiResponse(code = 200, message = "根据订单编号生成的微信支付地址"),
             @ApiResponse(code = 404, message = "生成链接失败"),
             @ApiResponse(code = 500, message = "服务器异常"),
     })
-    public ResponseEntity<String> generateUrl(@PathVariable("id") Long orderId) {
+    public ResponseEntity<String> generateUrl(@PathVariable("id") String orderId) {
+        Long LongorderId = Long.parseLong(orderId);
         // 生成付款链接
-        String url = this.payHelper.createPayUrl(orderId);
+        String url = this.payHelper.createPayUrl(LongorderId);
         if (StringUtils.isBlank(url)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

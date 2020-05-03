@@ -291,13 +291,7 @@
 
                     });
                     // 提交订单
-                    ly.http.post("/order/order", this.order,{//解决订单号精度失真
-                        transformResponse: [
-                            function(data){
-                                return data;
-                            }
-                        ]
-                    }).then(({data}) => {
+                    ly.http.post("/order/order", this.order).then(({data}) => {
                         // 在线支付，需要到付款页
 						let realActualPay = ly.formatPrice(this.actualPay);
                         window.location = "http://www.leyou.com/pay.html?orderId="+data+"&actualPay=" + realActualPay;
