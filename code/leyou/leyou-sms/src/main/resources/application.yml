@@ -19,5 +19,5 @@ leyou:
   sms:
     accessKeyId: LTAI4GDXKZDcCjqXgdfXnZS6 # 你自己的accessKeyId
     accessKeySecret: WfuElw6inasg5VRnk0DGZhotgSxgLN # 你自己的AccessKeySecret
-    signName: 乐忧验证码 # 签名名称
-    verifyCodeTemplate: LTAI4GDXKZDcCjqXgdfXnZS6 # 模板名称
+    signName: 乐优商城 # 签名名称
+    verifyCodeTemplate: SMS_143714980 # 模板名称
